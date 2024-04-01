@@ -65,73 +65,66 @@ An example of this would be the [`background3`](#background3), [`background2`](#
 -}
 
 import Css
+import Css.Internal
 
-
-type TimingFunction
-    = Ease
-    | Linear
-    | EaseIn
-    | EaseOut
-    | EaseInOut
-    | StepStart
-    | StepEnd
-    | CubicBezier Float Float Float Float
+type alias TimingFunction
+    = Css.Internal.TimingFunction
 
 
 {-| CSS ease timing function
 -}
 ease : TimingFunction
 ease =
-    Ease
+    Css.Internal.ease
 
 
 {-| CSS linear timing function
 -}
 linear : TimingFunction
 linear =
-    Linear
+    Css.Internal.linear
 
 
 {-| CSS easeIn timing function
 -}
 easeIn : TimingFunction
 easeIn =
-    EaseIn
+    Css.Internal.easeIn
 
 
 {-| CSS easeOut timing function
 -}
 easeOut : TimingFunction
 easeOut =
-    EaseOut
+    Css.Internal.easeOut
 
 
 {-| CSS easeInOut timing function
 -}
 easeInOut : TimingFunction
 easeInOut =
-    EaseInOut
+    Css.Internal.easeInOut
 
 
 {-| CSS stepStart timing function
 -}
 stepStart : TimingFunction
 stepStart =
-    StepStart
+    Css.Internal.stepStart
 
 
 {-| CSS stepEnd timing function
 -}
 stepEnd : TimingFunction
 stepEnd =
-    StepEnd
+    Css.Internal.stepEnd
 
 
 {-| CSS cubicBezier timing function
 -}
 cubicBezier : Float -> Float -> Float -> Float -> TimingFunction
-cubicBezier f1 f2 f3 f4 =
-    CubicBezier f1 f2 f3 f4
+cubicBezier =
+    Css.Internal.cubicBezier
 
 
 {-| This describes all of the aspects of a [CSS transition](https://developer.mozilla.org/en-US/docs/Web/CSS/transition), which will then be
@@ -2860,42 +2853,6 @@ timeToString time =
     String.fromFloat time ++ "ms"
 
 
-timingFunctionToString : TimingFunction -> String
-timingFunctionToString tf =
-    case tf of
-        Ease ->
-            "ease"
-
-        Linear ->
-            "linear"
-
-        EaseIn ->
-            "ease-in"
-
-        EaseOut ->
-            "ease-out"
-
-        EaseInOut ->
-            "ease-in-out"
-
-        StepStart ->
-            "step-start"
-
-        StepEnd ->
-            "step-end"
-
-        CubicBezier float float2 float3 float4 ->
-            "cubic-bezier("
-                ++ String.fromFloat float
-                ++ " , "
-                ++ String.fromFloat float2
-                ++ " , "
-                ++ String.fromFloat float3
-                ++ " , "
-                ++ String.fromFloat float4
-                ++ ")"
-
-
 {-| This function is used to batch up a list of supplied transitions that have been created (using the property functions listed below) and then produce a [`Css.Style`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Css#Style).
 This can then be used with other functions (such as [`Html.Styled.Attributes.css`](http://package.elm-lang.org/packages/rtfeldman/elm-css/latest/Html-Styled-Attributes#css)) to add the desired transitions to elements / classes as required.
 -}
@@ -2914,7 +2871,7 @@ transition options =
                                 |> Maybe.withDefault ""
                            )
                         ++ " "
-                        ++ (Maybe.map timingFunctionToString timing
+                        ++ (Maybe.map Css.Internal.timingFunctionToString timing
                                 |> Maybe.withDefault ""
                            )
                         ++ ","

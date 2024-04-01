@@ -1,4 +1,4 @@
-module Css.Internal exposing (AnimationProperty(..), ColorValue, ExplicitLength, IncompatibleUnits(..), Length, LengthOrAutoOrCoverOrContain, compileKeyframes, getOverloadedProperty, lengthConverter, lengthForOverloadedProperty)
+module Css.Internal exposing (AnimationProperty(..), ColorValue, ExplicitLength, IncompatibleUnits(..), Length, LengthOrAutoOrCoverOrContain, TimingFunction, compileKeyframes, cubicBezier, ease, easeIn, easeInOut, easeOut, getOverloadedProperty, lengthConverter, lengthForOverloadedProperty, linear, stepEnd, stepStart, timingFunctionToString)
 
 import Css.Preprocess as Preprocess exposing (Style)
 import Css.String
@@ -51,6 +51,109 @@ type alias ExplicitLength units =
 
 type AnimationProperty
     = Property String
+
+
+type TimingFunction
+    = Ease
+    | Linear
+    | EaseIn
+    | EaseOut
+    | EaseInOut
+    | StepStart
+    | StepEnd
+    | CubicBezier Float Float Float Float
+
+
+{-| CSS ease timing function
+-}
+ease : TimingFunction
+ease =
+    Ease
+
+
+{-| CSS linear timing function
+-}
+linear : TimingFunction
+linear =
+    Linear
+
+
+{-| CSS easeIn timing function
+-}
+easeIn : TimingFunction
+easeIn =
+    EaseIn
+
+
+{-| CSS easeOut timing function
+-}
+easeOut : TimingFunction
+easeOut =
+    EaseOut
+
+
+{-| CSS easeInOut timing function
+-}
+easeInOut : TimingFunction
+easeInOut =
+    EaseInOut
+
+
+{-| CSS stepStart timing function
+-}
+stepStart : TimingFunction
+stepStart =
+    StepStart
+
+
+{-| CSS stepEnd timing function
+-}
+stepEnd : TimingFunction
+stepEnd =
+    StepEnd
+
+
+{-| CSS cubicBezier timing function
+-}
+cubicBezier : Float -> Float -> Float -> Float -> TimingFunction
+cubicBezier f1 f2 f3 f4 =
+    CubicBezier f1 f2 f3 f4
+
+
+timingFunctionToString : TimingFunction -> String
+timingFunctionToString tf =
+    case tf of
+        Ease ->
+            "ease"
+
+        Linear ->
+            "linear"
+
+        EaseIn ->
+            "ease-in"
+
+        EaseOut ->
+            "ease-out"
+
+        EaseInOut ->
+            "ease-in-out"
+
+        StepStart ->
+            "step-start"
+
+        StepEnd ->
+            "step-end"
+
+        CubicBezier float float2 float3 float4 ->
+            "cubic-bezier("
+                ++ String.fromFloat float
+                ++ " , "
+                ++ String.fromFloat float2
+                ++ " , "
+                ++ String.fromFloat float3
+                ++ " , "
+                ++ String.fromFloat float4
+                ++ ")"
 
 
 {-| Used only for compiling keyframes. This does not compile to valid standalone
