@@ -66,6 +66,7 @@ module Css exposing
     , animationDelay
     , animationDuration
     , animationIterationCount
+    , animationTimingFunction
     , FontSize, ColorValue, ColorStop, IntOrAuto
     , thin, thick, blink
     )
@@ -462,6 +463,7 @@ functions let you define custom properties and selectors, respectively.
 @docs animationDelay
 @docs animationDuration
 @docs animationIterationCount
+@docs animationTimingFunction
 
 
 # Types
@@ -2863,6 +2865,14 @@ animationDuration arg =
 animationIterationCount : NumberOrInfinite compatible -> Style
 animationIterationCount arg =
     prop1 "animation-iteration-count" arg
+
+
+{-| An [`animation-timing-function`](https://developer.mozilla.org/en-US/docs/Web/CSS/animation-timing-function)
+) property.
+-}
+animationTimingFunction : Css.Internal.TimingFunction -> Style
+animationTimingFunction arg =
+    prop1 "animation-timing-function" { value = Css.Internal.timingFunctionToString arg }
 
 
 {-| Sets [`transform`](https://developer.mozilla.org/en-US/docs/Web/CSS/transform)
