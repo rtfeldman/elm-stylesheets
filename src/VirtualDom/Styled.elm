@@ -17,11 +17,17 @@ module VirtualDom.Styled exposing
     , keyedNodeNS
     , lazy
     , lazy2
+    , lazy2WithNonce
     , lazy3
+    , lazy3WithNonce
     , lazy4
+    , lazy4WithNonce
     , lazy5
+    , lazy5WithNonce
     , lazy6
+    , lazy6WithNonce
     , lazy7
+    , lazyWithNonce
     , makeSnippet
     , map
     , mapAttribute
@@ -254,6 +260,78 @@ lazyHelp7 : (a -> b -> c -> d -> e -> f -> g -> Node msg) -> a -> b -> c -> d ->
 lazyHelp7 fn arg1 arg2 arg3 arg4 arg5 arg6 arg7 =
     fn arg1 arg2 arg3 arg4 arg5 arg6 arg7
         |> toUnstyled
+
+
+lazyWithNonce : String -> (a -> Node msg) -> a -> Node msg
+lazyWithNonce nonce fn arg =
+    VirtualDom.lazy3 lazyHelpWithNonce nonce fn arg
+        |> Unstyled
+
+
+lazyHelpWithNonce : String -> (a -> Node msg) -> a -> VirtualDom.Node msg
+lazyHelpWithNonce nonce fn arg =
+    fn arg
+        |> toNonceUnstyled nonce
+
+
+lazy2WithNonce : String -> (a -> b -> Node msg) -> a -> b -> Node msg
+lazy2WithNonce nonce fn arg1 arg2 =
+    VirtualDom.lazy4 lazyHelp2WithNonce nonce fn arg1 arg2
+        |> Unstyled
+
+
+lazyHelp2WithNonce : String -> (a -> b -> Node msg) -> a -> b -> VirtualDom.Node msg
+lazyHelp2WithNonce nonce fn arg1 arg2 =
+    fn arg1 arg2
+        |> toNonceUnstyled nonce
+
+
+lazy3WithNonce : String -> (a -> b -> c -> Node msg) -> a -> b -> c -> Node msg
+lazy3WithNonce nonce fn arg1 arg2 arg3 =
+    VirtualDom.lazy5 lazyHelp3WithNonce nonce fn arg1 arg2 arg3
+        |> Unstyled
+
+
+lazyHelp3WithNonce : String -> (a -> b -> c -> Node msg) -> a -> b -> c -> VirtualDom.Node msg
+lazyHelp3WithNonce nonce fn arg1 arg2 arg3 =
+    fn arg1 arg2 arg3
+        |> toNonceUnstyled nonce
+
+
+lazy4WithNonce : String -> (a -> b -> c -> d -> Node msg) -> a -> b -> c -> d -> Node msg
+lazy4WithNonce nonce fn arg1 arg2 arg3 arg4 =
+    VirtualDom.lazy6 lazyHelp4WithNonce nonce fn arg1 arg2 arg3 arg4
+        |> Unstyled
+
+
+lazyHelp4WithNonce : String -> (a -> b -> c -> d -> Node msg) -> a -> b -> c -> d -> VirtualDom.Node msg
+lazyHelp4WithNonce nonce fn arg1 arg2 arg3 arg4 =
+    fn arg1 arg2 arg3 arg4
+        |> toNonceUnstyled nonce
+
+
+lazy5WithNonce : String -> (a -> b -> c -> d -> e -> Node msg) -> a -> b -> c -> d -> e -> Node msg
+lazy5WithNonce nonce fn arg1 arg2 arg3 arg4 arg5 =
+    VirtualDom.lazy7 lazyHelp5WithNonce nonce fn arg1 arg2 arg3 arg4 arg5
+        |> Unstyled
+
+
+lazyHelp5WithNonce : String -> (a -> b -> c -> d -> e -> Node msg) -> a -> b -> c -> d -> e -> VirtualDom.Node msg
+lazyHelp5WithNonce nonce fn arg1 arg2 arg3 arg4 arg5 =
+    fn arg1 arg2 arg3 arg4 arg5
+        |> toNonceUnstyled nonce
+
+
+lazy6WithNonce : String -> (a -> b -> c -> d -> e -> f -> Node msg) -> a -> b -> c -> d -> e -> f -> Node msg
+lazy6WithNonce nonce fn arg1 arg2 arg3 arg4 arg5 arg6 =
+    VirtualDom.lazy8 lazyHelp6WithNonce nonce fn arg1 arg2 arg3 arg4 arg5 arg6
+        |> Unstyled
+
+
+lazyHelp6WithNonce : String -> (a -> b -> c -> d -> e -> f -> Node msg) -> a -> b -> c -> d -> e -> f -> VirtualDom.Node msg
+lazyHelp6WithNonce nonce fn arg1 arg2 arg3 arg4 arg5 arg6 =
+    fn arg1 arg2 arg3 arg4 arg5 arg6
+        |> toNonceUnstyled nonce
 
 
 type Scope

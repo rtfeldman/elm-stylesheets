@@ -1,7 +1,11 @@
-module Html.Styled.Lazy exposing (lazy, lazy2, lazy3, lazy4, lazy5, lazy6, lazy7)
+module Html.Styled.Lazy exposing
+    ( lazy, lazy2, lazy3, lazy4, lazy5, lazy6, lazy7
+    , lazyWithNonce, lazy2WithNonce, lazy3WithNonce, lazy4WithNonce, lazy5WithNonce, lazy6WithNonce
+    )
 
-{-| **NOTE:** `Html.Lazy` goes up to `lazy8`, but `Html.Styled.Lazy` can only go
-up to `lazy7` because it uses one of the arguments to track styling info.
+{-| **NOTE:** `Html.Lazy` goes up to `lazy8` and `lazy7WithNonce`, but
+`Html.Styled.Lazy` can only go up to `lazy7` and `lazy6WithNonce` because it
+uses one of the arguments to track styling info.
 
 Since all Elm functions are pure we have a guarantee that the same input
 
@@ -17,6 +21,7 @@ This is a really cheap test and often makes things a lot faster, but definitely
 benchmark to be sure!
 
 @docs lazy, lazy2, lazy3, lazy4, lazy5, lazy6, lazy7
+@docs lazyWithNonce, lazy2WithNonce, lazy3WithNonce, lazy4WithNonce, lazy5WithNonce, lazy6WithNonce
 
 -}
 
@@ -78,3 +83,51 @@ lazy6 =
 lazy7 : (a -> b -> c -> d -> e -> f -> g -> Html msg) -> a -> b -> c -> d -> e -> f -> g -> Html msg
 lazy7 =
     VirtualDom.Styled.lazy7
+
+
+{-| Same as [`lazy`](#lazy) but adds a
+[nonce](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/nonce)
+to the style tag so that it is compliant with the Content Security Policy of
+your website.
+
+If you don't need a nonce, you should use [`lazy`](#lazy).
+
+-}
+lazyWithNonce : String -> (a -> Html msg) -> a -> Html msg
+lazyWithNonce =
+    VirtualDom.Styled.lazyWithNonce
+
+
+{-| Same as `lazy2` but adds a nonce to the style tag.
+-}
+lazy2WithNonce : String -> (a -> b -> Html msg) -> a -> b -> Html msg
+lazy2WithNonce =
+    VirtualDom.Styled.lazy2WithNonce
+
+
+{-| Same as `lazy3` but adds a nonce to the style tag.
+-}
+lazy3WithNonce : String -> (a -> b -> c -> Html msg) -> a -> b -> c -> Html msg
+lazy3WithNonce =
+    VirtualDom.Styled.lazy3WithNonce
+
+
+{-| Same as `lazy4` but adds a nonce to the style tag.
+-}
+lazy4WithNonce : String -> (a -> b -> c -> d -> Html msg) -> a -> b -> c -> d -> Html msg
+lazy4WithNonce =
+    VirtualDom.Styled.lazy4WithNonce
+
+
+{-| Same as `lazy5` but adds a nonce to the style tag.
+-}
+lazy5WithNonce : String -> (a -> b -> c -> d -> e -> Html msg) -> a -> b -> c -> d -> e -> Html msg
+lazy5WithNonce =
+    VirtualDom.Styled.lazy5WithNonce
+
+
+{-| Same as `lazy6` but adds a nonce to the style tag.
+-}
+lazy6WithNonce : String -> (a -> b -> c -> d -> e -> f -> Html msg) -> a -> b -> c -> d -> e -> f -> Html msg
+lazy6WithNonce =
+    VirtualDom.Styled.lazy6WithNonce
